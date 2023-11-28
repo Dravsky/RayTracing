@@ -1,19 +1,17 @@
 #pragma once
 #include "glm/vec3.hpp"
 
-namespace lola
+struct ray_t
 {
-	struct ray_t
-	{
-		ray_t() = default;
-		ray_t(const glm::vec3& origin, const glm::vec3& direction) :
-			origin{ origin },
-			direction{ direction }
-		{}
+	ray_t() = default;
+	ray_t(const glm::vec3& origin, const glm::vec3& direction) :
+		origin{ origin },
+		direction{ direction }
+	{}
 
-			glm::vec3 GetPoint(float distance) const { return origin + distance * direction; }
+	glm::vec3 At(float t) const { return origin + (direction * t); }
+	//glm::vec3 operator * (float t) const { return origin + (direction * t); }
 
-			glm::vec3 origin{ 0 };
-			glm::vec3 direction{ 0 };
-	};
-}
+	glm::vec3 origin{ 0 };
+	glm::vec3 direction{ 0 };
+};
