@@ -1,6 +1,7 @@
 #pragma once
 #include <glm/glm.hpp>
 #include <glm/gtx/norm.hpp>
+#include <algorithm>
 
 inline void seedRandom(unsigned int seed)
 {
@@ -33,5 +34,5 @@ inline glm::vec3 randomInUnitSphere()
 		v = glm::vec3{ random(-1, 1), random(-1, 1), random(-1, 1) };
 	} while (glm::length2(v) >= 1.0f);
 
-		return v;
+	return v;
 }

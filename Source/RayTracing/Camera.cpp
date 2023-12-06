@@ -1,4 +1,5 @@
 #include "Camera.h"
+#include "MathUtils.h"
 
 Camera::Camera(const glm::vec3& eye, const glm::vec3& target, const glm::vec3& up, float fov, float aspectRatio) :
 	m_fov{ fov },
@@ -43,9 +44,9 @@ void Camera::CalculateViewPlane()
 ray_t Camera::GetRay(const glm::vec2& point) const
 {
 	ray_t ray;
-	// the ray origin is the camera eye
+	// the origin is the camera eye
 	ray.origin = m_eye;
-		// calculate direction from point
+	// calculate direction from point
 	ray.direction = (m_lowerLeft + (m_horizontal * point.x) + (m_vertical * point.y)) - m_eye;
 
 	return ray;

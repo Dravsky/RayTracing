@@ -1,9 +1,11 @@
 #include "Scene.h"
 #include "Random.h"
 #include "Canvas.h"
+#include <iostream>
+#include <iomanip>
 #include <glm/vec2.hpp>
 
-void Scene::Render(Canvas& canvas, int numSamples)
+void Scene::Render(Canvas& canvas, int numSamples, int depth)
 {
 	// cast ray for each point (pixel) on the canvas
 	for (int y = 0; y < canvas.GetSize().y; y++)
@@ -21,7 +23,8 @@ void Scene::Render(Canvas& canvas, int numSamples)
 			{
 				// get normalized (0 - 1) point coordinates from pixel
 				// add random x and y offset (0-1) to each pixel
-				glm::vec2 point = (pixel + glm::vec2{ random01(), random01() }) / (glm::vec2)canvas.GetSize();
+				//glm::vec2 point = (pixel + glm::vec2{ random01(), random01() }) / (glm::vec2)canvas.GetSize();
+				glm::vec2 point = (pixel) / glm::vec2{ 400, 300 };
 				// flip y
 				point.y = 1.0f - point.y;
 
@@ -31,7 +34,7 @@ void Scene::Render(Canvas& canvas, int numSamples)
 				// cast ray into scene
 				// add color value from trace
 				raycastHit_t raycastHit;
-				color += Trace(ray, 0, 100, raycastHit, m_depth);
+				color += Trace(ray, 0, 100, raycastHit, depth);
 			}
 
 			// draw color to canvas point (pixel)
@@ -39,6 +42,7 @@ void Scene::Render(Canvas& canvas, int numSamples)
 			color /= numSamples;
 			canvas.DrawPoint(pixel, color4_t(color, 1));
 		}
+		std::cout << std::setprecision(2) << std::setw(5) << ((y / (float)canvas.GetSize().y) * 100) << "%\n";
 	}
 }
 
@@ -73,8 +77,8 @@ color3_t Scene::Trace(const ray_t& ray, float minDistance, float maxDistance, ra
 		}
 		else
 		{
-			// reached maximum depth of bounces (color is black)
-			return color3_t{ 0, 0, 0 };
+			// reached maximum depth of bounces (get emissive color, will be black except for Emissive materials)
+			return raycastHit.material->GetEmissive();
 		}
 	}
 
