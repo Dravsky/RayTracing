@@ -20,7 +20,7 @@ inline glm::vec3 cross(const glm::vec3& v1, const glm::vec3& v2)
 
 inline float dot(const glm::vec3& v1, const glm::vec3& v2)
 {
-	return (v1.x * v2.x) + (v1.y * v2.y) + (v1.z + v2.z);
+	return (v1.x * v2.x) + (v1.y * v2.y) + (v1.z * v2.z);
 }
 
 
@@ -31,13 +31,13 @@ inline float angle(const glm::vec3& v1, const glm::vec3& v2)
 
 inline glm::vec3 reflect(const glm::vec3& v, const glm::vec3& n)
 {
-	return v - 2.0f * dot(n, v) * n;
+	return v - (2.0f * dot(n, v) * n);
 }
 
 inline bool approximately(float value1, float value2)
 {
 	// check if the difference between the values is less than epsilon
-	return fabs(value1 - value2) < FLT_EPSILON;
+	return std::fabs(value1 - value2) < FLT_EPSILON;
 }
 
 inline bool refract(const glm::vec3& v, const glm::vec3& n, float index, glm::vec3& refracted)

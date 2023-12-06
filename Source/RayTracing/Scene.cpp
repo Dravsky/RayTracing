@@ -24,7 +24,7 @@ void Scene::Render(Canvas& canvas, int numSamples, int depth)
 				// get normalized (0 - 1) point coordinates from pixel
 				// add random x and y offset (0-1) to each pixel
 				//glm::vec2 point = (pixel + glm::vec2{ random01(), random01() }) / (glm::vec2)canvas.GetSize();
-				glm::vec2 point = (pixel) / glm::vec2{ 400, 300 };
+				glm::vec2 point = glm::vec2{ (pixel)+glm::vec2{ random01(), random01() } } / canvas.GetSize();
 				// flip y
 				point.y = 1.0f - point.y;
 
@@ -42,7 +42,7 @@ void Scene::Render(Canvas& canvas, int numSamples, int depth)
 			color /= numSamples;
 			canvas.DrawPoint(pixel, color4_t(color, 1));
 		}
-		std::cout << std::setprecision(2) << std::setw(5) << ((y / (float)canvas.GetSize().y) * 100) << "%\n";
+		std::cout << std::setprecision(2) << std::setw(5) << ((y / canvas.GetSize().y) * 100) << "%\n";
 	}
 }
 
